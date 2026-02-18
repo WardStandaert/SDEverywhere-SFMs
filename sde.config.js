@@ -109,7 +109,10 @@ export async function config() {
     plugins: [
       // If targeting WebAssembly, generate a `generated-model.js` file
       // containing the Wasm model
-      genFormat === 'c' && wasmPlugin(),
+      genFormat === 'c' &&
+        wasmPlugin({
+          emsdkDir: process.env.EMSDK_DIR
+        }),
 
 	  genFormat === 'c' &&
 	    wasmPlugin({

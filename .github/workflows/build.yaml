@@ -60,10 +60,16 @@ jobs:
         with:
           version: 3.1.64
 
-      - name: Export EMSDK_DIR for SDEverywhere
+      - name: Set up Emscripten (emsdk)
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: latest
+
+      - name: Export EMSDK_DIR for plugin-wasm
         shell: bash
         run: |
-          EMSDK_DIR="$(dirname "$(dirname "$(dirname "$(command -v emcc)")")")"
+          echo "emsdk is at: $(command -v emsdk)"
+          EMSDK_DIR="$(dirname "$(command -v emsdk)")"
           echo "EMSDK_DIR=$EMSDK_DIR" >> "$GITHUB_ENV"
           echo "EMSDK_DIR=$EMSDK_DIR"
           emcc -v
