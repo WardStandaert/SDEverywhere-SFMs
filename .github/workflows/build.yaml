@@ -38,6 +38,8 @@ jobs:
         with:
           # Fetch full history for artifact branch operations
           fetch-depth: 0
+          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -57,7 +59,7 @@ jobs:
       - name: Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./scripts/ci-build.js
+        run: node ./scripts/ci-build.js
 
       - name: Check for deploy directory
         id: check-deploy
@@ -90,3 +92,8 @@ jobs:
         if: steps.check-deploy.outputs.products_updated == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
+      
+      - name: Configure git identity
+        run: |
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
