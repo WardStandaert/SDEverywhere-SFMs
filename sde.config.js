@@ -111,6 +111,11 @@ export async function config() {
       // containing the Wasm model
       genFormat === 'c' && wasmPlugin(),
 
+	  genFormat === 'c' &&
+	    wasmPlugin({
+		  // In CI we’ll set EMSDK_DIR; locally you can set it too (or fall back to C:\emsdk)
+		  emsdkDir: process.env.EMSDK_DIR || 'C:\\emsdk'
+	    }),
       // Generate a `worker.js` file that runs the model asynchronously on a
       // worker thread for improved responsiveness
       workerPlugin({

@@ -55,6 +55,18 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+      - name: Set up Emscripten (emsdk)
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 3.1.64
+
+      - name: Export EMSDK_DIR for SDEverywhere
+        shell: bash
+        run: |
+          EMSDK_DIR="$(dirname "$(dirname "$(dirname "$(command -v emcc)")")")"
+          echo "EMSDK_DIR=$EMSDK_DIR" >> "$GITHUB_ENV"
+          echo "EMSDK_DIR=$EMSDK_DIR"
+          emcc -v
 
       - name: Build
         env:
