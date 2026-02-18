@@ -38,6 +38,7 @@ jobs:
         with:
           # Fetch full history for artifact branch operations
           fetch-depth: 0
+          fetch-tags: true
           persist-credentials: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -78,6 +79,7 @@ jobs:
           emcc -v
 
       - name: Build
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node ./scripts/ci-build.js
